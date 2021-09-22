@@ -1,5 +1,10 @@
 from tkinter import *
 import random
+import mysql.connector
+from datetime import date
+
+today = date.today()
+
 
 
 root=Tk()
@@ -102,6 +107,350 @@ tax.set(0)
 total.set(0)
 cheese_burger.set(0)
 cost.set(0)
+
+
+
+def ref():
+    x=random.randint(10000, 99999)
+    randomRef = str(x)
+    rand.set(randomRef)
+
+    global f
+    cof =f
+    global l
+    colunch= l
+    global b
+    cob= b
+    global p
+    cop= p
+    global c
+    cocheese= c
+    global d
+    codrinks= d
+
+    costoffries = cof*25
+    costoflunch = colunch*40
+    costofburger = cob*35
+    costofpizza = cop*50
+    costofcheeseburger = cocheese*50
+    costofdrinks = codrinks*35
+
+    costofmeal=str(costoffries+costoflunch+costofburger+costofpizza+costofcheeseburger+costofdrinks)
+    taxpay=(costoffries+costoflunch+costofburger+costofpizza+costofcheeseburger+costofdrinks)*0.2
+    overallcost=(costoffries+costoflunch+costofburger+costofpizza+costofcheeseburger+costofdrinks)+taxpay
+
+    cost.set(costofmeal)
+    tax.set(taxpay)
+    total.set(overallcost)
+
+    og_name=str(name.get())
+    number=str(ph_no.get())
+    order=str(rand.get())
+
+    #connection to database
+    mydb=mysql.connector.connect(host='localhost',user='root',passwd='1234',database='akshit')
+    mycrsr=mydb.cursor()
+    mycrsr.execute('insert into data values('+'"'+og_name+'"'+',''"'+number+'"'',''"'+order+'"'+','+'"'+str(today)+'"'');') 
+
+    mydb.commit()
+    mycrsr.close()
+    mydb.close()
+
+name=StringVar()
+ph_no=StringVar()
+def reset():
+    rand.set(0)
+    fries.set(0)
+    lunch.set(0)
+    burger.set(0)
+    pizza.set(0)
+    drinks.set(0)
+    tax.set(0)
+    total.set(0)
+    cheese_burger.set(0)
+    cost.set(0)
+    ph_no.set('')
+    name.set('')
+    
+    global f
+    global l
+    global p
+    global b
+    global c
+    global d
+
+    f=0
+    l=0
+    p=0
+    b=0
+    c=0
+    d=0 
+
+    
+def exit():
+    root.destroy()
+
+f=0
+def fries_up():
+    global f
+    f+=1
+    fries.set(f)
+
+def fries_down():
+    global f
+    if f==0:
+        return
+    f-=1
+    fries.set(f)
+
+l=0
+def lunch_up():
+    global l
+    l+=1
+    lunch.set(l)
+
+def lunch_down():
+    global l
+    if l==0:
+        return
+    l-=1
+    lunch.set(l)
+
+p=0
+def pizza_up():
+    global p
+    p+=1
+    pizza.set(p)
+
+def pizza_down():
+    global p
+    if p==0:
+        return
+    p-=1
+    pizza.set(p)
+
+b=0
+def burger_up():
+    global b
+    b+=1
+    burger.set(b)
+
+def burger_down():
+    global b
+    if b==0:
+        return
+    b-=1
+    burger.set(b)
+
+c=0
+def cheese_up():
+    global c
+    c+=1
+    cheese_burger.set(c)
+
+def cheese_down():
+    global c
+    if c==0:
+        return
+    c-=1
+    cheese_burger.set(c)
+
+d=0
+def drinks_up():
+    global d
+    d+=1
+    drinks.set(d)
+
+def drinks_down():
+    global d
+    if d==0:
+        return
+    d-=1
+    drinks.set(d)
+
+
+
+#Buttons of Calculator
+
+btn7=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="7",bg="powder blue", command=lambda: btnclick(7) )
+btn7.grid(row=2,column=0)
+
+btn8=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="8",bg="powder blue", command=lambda: btnclick(8) )
+btn8.grid(row=2,column=1)
+
+btn9=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="9",bg="powder blue", command=lambda: btnclick(9) )
+btn9.grid(row=2,column=2)
+
+Addition=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="+",bg="powder blue", command=lambda: btnclick("+") )
+Addition.grid(row=2,column=3)
+#---------------------------------------------------------------------------------------------
+btn4=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="4",bg="powder blue", command=lambda: btnclick(4) )
+btn4.grid(row=3,column=0)
+
+btn5=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="5",bg="powder blue", command=lambda: btnclick(5) )
+btn5.grid(row=3,column=1)
+
+btn6=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="6",bg="powder blue", command=lambda: btnclick(6) )
+btn6.grid(row=3,column=2)
+
+Substraction=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="-",bg="powder blue", command=lambda: btnclick("-") )
+Substraction.grid(row=3,column=3)
+#-----------------------------------------------------------------------------------------------
+btn1=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="1",bg="powder blue", command=lambda: btnclick(1) )
+btn1.grid(row=4,column=0)
+
+btn2=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="2",bg="powder blue", command=lambda: btnclick(2) )
+btn2.grid(row=4,column=1)
+
+btn3=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="3",bg="powder blue", command=lambda: btnclick(3) )
+btn3.grid(row=4,column=2)
+
+multiply=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="*",bg="powder blue", command=lambda: btnclick("*") )
+multiply.grid(row=4,column=3)
+#------------------------------------------------------------------------------------------------
+btn0=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="0",bg="powder blue", command=lambda: btnclick(0) )
+btn0.grid(row=5,column=0)
+
+btnc=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="c",bg="powder blue", command=clrdisplay)
+btnc.grid(row=5,column=1)
+
+btnequal=Button(f2,padx=16,pady=16,bd=4,width = 16, fg="black", font=('ariel', 20 ,'bold'),text="=",bg="powder blue",command=equals)
+btnequal.grid(columnspan=4)
+
+Decimal=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text=".",bg="powder blue", command=lambda: btnclick(".") )
+Decimal.grid(row=5,column=2)
+
+Division=Button(f2,padx=16,pady=16,bd=4, fg="black", font=('ariel', 20 ,'bold'),text="/",bg="powder blue", command=lambda: btnclick("/") )
+Division.grid(row=5,column=3)
+
+#__________________________________________________________________________
+
+
+#name
+lblname=Label(f1,font=('aria',16,'bold'),text='Name',bd=10,fg='steel blue',anchor='w')
+lblname.grid(row=0,column=0)
+txtname=Entry(f1,font=('aria',10,'bold'),text=name,bd=6,justify='right')
+txtname.grid(row=0,column=2)
+
+#PhoneNumber
+lblphone=Label(f1,font=('aria',16,'bold'),text='Mobile Number',bd=10,fg='steel blue',anchor='w')
+lblphone.grid(row=0,column=4)
+txtphone=Entry(f1,font=('aria',10,'bold'),text=ph_no,bd=6,justify='right')
+txtphone.grid(row=0,column=5)
+
+#Order No.
+lblreference=Label(f1,font=('aria',16,'bold'),text='Order No.',bd=10,fg='steel blue',anchor='w')
+lblreference.grid(row=1,column=0)
+txtreference=Entry(f1,font=('aria',10,'bold'),text=rand,bd=6,justify='right')
+txtreference.grid(row=1,column=2)
+txtreference.configure(state='disabled')
+
+#fries
+lblfries=Label(f1,font=('aria',16,'bold'),text='Fries',bd=10,fg='steel blue',anchor='w')
+lblfries.grid(row=2,column=0)
+txtfries=Entry(f1,font=('aria',10,'bold'),text=fries,bd=6,justify='right')
+txtfries.grid(row=2,column=2)
+
+#lunch
+lbllunch=Label(f1,font=('aria',16,'bold'),text='Lunch Meal',bd=10,fg='steel blue',anchor='w')
+lbllunch.grid(row=3,column=0)
+txtlunch=Entry(f1,font=('aria',10,'bold'),text=lunch,bd=6,justify='right')
+txtlunch.grid(row=3,column=2)
+
+#burger
+lblburger=Label(f1,font=('aria',16,'bold'),text='Burger',bd=10,fg='steel blue',anchor='w')
+lblburger.grid(row=4,column=0)
+txtburger=Entry(f1,font=('aria',10,'bold'),text=burger,bd=6,justify='right')
+txtburger.grid(row=4,column=2)
+
+#pizza
+lblpizza=Label(f1,font=('aria',16,'bold'),text='Pizza',bd=10,fg='steel blue',anchor='w')
+lblpizza.grid(row=5,column=0)
+txtpizza=Entry(f1,font=('aria',10,'bold'),text=pizza,bd=6,justify='right')
+txtpizza.grid(row=5,column=2)
+
+#cheese burger
+lblcheese=Label(f1,font=('aria',16,'bold'),text='Cheese Burger',bd=10,fg='steel blue',anchor='w')
+lblcheese.grid(row=6,column=0)
+txtcheese=Entry(f1,font=('aria',10,'bold'),text=cheese_burger,bd=6,justify='right')
+txtcheese.grid(row=6,column=2)
+
+#drinks
+lbldrinks=Label(f1,font=('aria',16,'bold'),text='Drinks',bd=10,fg='steel blue',anchor='w')
+lbldrinks.grid(row=7,column=0)
+txtdrinks=Entry(f1,font=('aria',10,'bold'),text=drinks,bd=6,justify='right')
+txtdrinks.grid(row=7,column=2)
+
+#cost
+lblcost=Label(f1,font=('aria',16,'bold'),text='Cost of Meal',bd=10,fg='steel blue',anchor='w')
+lblcost.grid(row=1,column=4)
+txtcost=Entry(f1,font=('aria',10,'bold'),text=cost,bd=6,justify='right')
+txtcost.grid(row=1,column=5)
+txtcost.configure(state='disabled')
+
+#tax
+lbltax=Label(f1,font=('aria',16,'bold'),text='Tax',bd=10,fg='steel blue',anchor='w')
+lbltax.grid(row=2,column=4)
+txttax=Entry(f1,font=('aria',10,'bold'),text=tax,bd=6,justify='right')
+txttax.grid(row=2,column=5)
+txttax.configure(state='disabled')
+
+#total
+lbltotal=Label(f1,font=('aria',16,'bold'),text='Total',bd=10,fg='steel blue',anchor='w')
+lbltotal.grid(row=3,column=4)
+txttotal=Entry(f1,font=('aria',10,'bold'),text=total,bd=6,justify='right')
+txttotal.grid(row=3,column=5)
+txttotal.configure(state='disabled')
+
+pricebtn=Button(f1,padx=16,pady=8,bd=10,fg='black',font=('aria',16,'bold'),width=10,text='PRICE',bg='powder blue',command=price)
+pricebtn.grid(row=8,column=0)
+
+totalbtn=Button(f1,padx=16,pady=8,bd=10,fg='black',font=('aria',16,'bold'),width=10,text='TOTAL',bg='powder blue',command=ref)
+totalbtn.grid(row=8,column=1)
+
+rstbtn=Button(f1,padx=16,pady=8,bd=10,fg='black',font=('aria',16,'bold'),width=10,text='RESET',bg='powder blue',command=reset)
+rstbtn.grid(row=8,column=2)
+
+exitbtn=Button(f1,padx=16,pady=8,bd=10,fg='black',font=('aria',16,'bold'),width=10,text='EXIT',bg='powder blue',command=exit)
+exitbtn.grid(row=8,column=3)
+
+plus_img=PhotoImage(file='C:/Users/akshi/OneDrive/Desktop/Restaurant Management System/plus 40.png')
+minus_img=PhotoImage(file='C:/Users/akshi/OneDrive/Desktop/Restaurant Management System/minus 40.png')
+
+fries_plus_btn=Button(f1,image=plus_img,borderwidth=0,command=fries_up)
+fries_minus_btn=Button(f1,image=minus_img,borderwidth=0,command=fries_down)
+
+lunch_plus_btn=Button(f1,image=plus_img,borderwidth=0,command=lunch_up)
+lunch_minus_btn=Button(f1,image=minus_img,borderwidth=0,command=lunch_down)
+
+burger_plus_btn=Button(f1,image=plus_img,borderwidth=0,command=burger_up)
+burger_minus_btn=Button(f1,image=minus_img,borderwidth=0,command=burger_down)
+
+pizza_plus_btn=Button(f1,image=plus_img,borderwidth=0,command=pizza_up)
+pizza_minus_btn=Button(f1,image=minus_img,borderwidth=0,command=pizza_down)
+
+cheese_plus_btn=Button(f1,image=plus_img,borderwidth=0,command=cheese_up)
+cheese_minus_btn=Button(f1,image=minus_img,borderwidth=0,command=cheese_down)
+
+drinks_plus_btn=Button(f1,image=plus_img,borderwidth=0,command=drinks_up)
+drinks_minus_btn=Button(f1,image=minus_img,borderwidth=0,command=drinks_down)
+
+fries_plus_btn.grid(row=2,column=3)
+lunch_plus_btn.grid(row=3,column=3)
+burger_plus_btn.grid(row=4,column=3)
+pizza_plus_btn.grid(row=5,column=3)
+cheese_plus_btn.grid(row=6,column=3)
+drinks_plus_btn.grid(row=7,column=3)
+
+fries_minus_btn.grid(row=2,column=1)
+lunch_minus_btn.grid(row=3,column=1)
+burger_minus_btn.grid(row=4,column=1)
+pizza_minus_btn.grid(row=5,column=1)
+cheese_minus_btn.grid(row=6,column=1)
+drinks_minus_btn.grid(row=7,column=1)
+
+root.mainloop()
+
 
 
 
